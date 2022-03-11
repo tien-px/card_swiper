@@ -38,6 +38,8 @@ class Swiper extends StatefulWidget {
   /// If set true , the pagination will display 'outer' of the 'content' container.
   final bool outer;
 
+  final Alignment outerAlignment;
+
   /// Inner item height, this property is valid if layout=STACK or layout=TINDER or LAYOUT=CUSTOM,
   final double? itemHeight;
 
@@ -159,6 +161,7 @@ class Swiper extends StatefulWidget {
     this.itemHeight,
     this.itemWidth,
     this.outer = false,
+    this.outerAlignment = Alignment.bottomCenter,
     this.scale,
     this.fade,
   })  : assert(
@@ -575,6 +578,7 @@ class _SwiperState extends _SwiperTimerMixin {
     final con = config ??
         SwiperPluginConfig(
           outer: widget.outer,
+          outerAlignment: widget.outerAlignment,
           itemCount: widget.itemCount,
           layout: widget.layout,
           indicatorLayout: widget.indicatorLayout,
@@ -658,18 +662,28 @@ class _SwiperState extends _SwiperTimerMixin {
     Widget swiper,
     SwiperPluginConfig config,
   ) {
+    final alignment = config.outerAlignment;
     final list = <Widget>[];
-    //Only support bottom yet!
+
+    if(alignment == Alignment.topLeft || alignment == Alignment.topCenter || alignment == Alignment.topRight) {
+      list.add(Align(
+        alignment: Alignment.center,
+        child: pagination.build(context, config),
+      ));
+    }
+
     if (widget.containerHeight != null || widget.containerWidth != null) {
       list.add(swiper);
     } else {
       list.add(Expanded(child: swiper));
     }
 
-    list.add(Align(
-      alignment: Alignment.center,
-      child: pagination.build(context, config),
-    ));
+    if(alignment == Alignment.bottomLeft || alignment == Alignment.bottomCenter || alignment == Alignment.bottomRight) {
+      list.add(Align(
+        alignment: Alignment.center,
+        child: pagination.build(context, config),
+      ));
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

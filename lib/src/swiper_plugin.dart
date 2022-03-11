@@ -18,6 +18,7 @@ class SwiperPluginConfig {
   final PageIndicatorLayout? indicatorLayout;
   final bool loop;
   final bool? outer;
+  final Alignment outerAlignment;
   final PageController? pageController;
   final SwiperLayout? layout;
 
@@ -29,6 +30,7 @@ class SwiperPluginConfig {
     this.axisDirection,
     this.indicatorLayout,
     this.outer,
+    this.outerAlignment = Alignment.bottomCenter,
     this.pageController,
     this.layout,
     this.loop = false,
